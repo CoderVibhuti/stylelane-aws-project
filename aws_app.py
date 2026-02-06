@@ -17,10 +17,10 @@ dynamodb = boto3.resource('dynamodb', region_name=REGION)
 sns = boto3.client('sns', region_name=REGION)
 
 # 2️⃣ DYNAMODB TABLE CONNECTIONS
-users_table = dynamodb.Table('Users')
-stores_table = dynamodb.Table('Stores')
-suppliers_table = dynamodb.Table('Suppliers')
-inventory_table = dynamodb.Table('Inventory')
+users_table = dynamodb.Table('users_table')
+stores_table = dynamodb.Table('stores_table')
+suppliers_table = dynamodb.Table('suppliers_table')
+inventory_table = dynamodb.Table('inventory_table')
 
 # 📌 All Data Persisted in DynamoDB (using 4 Tables: Users, Stores, Suppliers, Inventory)
 # Logical data (Shipments, Restock) is stored in the 'Inventory' table with a 'record_type' attribute.
