@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="{{ url_for('admin_dashboard') }}">Overview</a></li>
+            <li><a href="{{ url_for('admin_stores') }}">Store Management</a></li>
+            <li><a href="{{ url_for('admin_suppliers') }}">Supplier Management</a></li>
+            <li><a href="{{ url_for('admin_users') }}" class="active">User Management</a></li>
+            <li><a href="{{ url_for('admin_inventory') }}">Inventory Overview</a></li>
+            <li><a href="{{ url_for('admin_reports') }}">Reports</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 2rem;">
+            <h2>User Management</h2>
+        </header>
+
+        <section class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Managers</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Assigned Store</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for manager in managers %}
+                        <tr>
+                            <td>#{{ manager.id }}</td>
+                            <td>{{ manager.name }}</td>
+                            <td>{{ manager.email }}</td>
+                            <td>{{ manager.location }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 style="margin-bottom: 1rem;">Suppliers (User Accounts)</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for supplier in suppliers %}
+                        <tr>
+                            <td>#{{ supplier.id }}</td>
+                            <td>{{ supplier.name }}</td>
+                            <td>{{ supplier.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--color-text-secondary);">
+                <em>Note: Supplier accounts are users who can view their assigned shipments. Supplier entities are
+                    managed in Supplier Management.</em>
+            </p>
+        </section>
+    </main>
+</div>
+{% endblock %}

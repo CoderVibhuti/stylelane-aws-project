@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleLane | {% block title %}Inventory Management{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Google Fonts for Premium Feel -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="{{ url_for('index') }}" class="brand">Style<span>Lane</span></a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                <a href="{{ url_for('about') }}" class="nav-item" style="margin-left: 15px;">About</a>
+                <span style="color: var(--color-text-secondary); margin: 0 15px;">|</span>
+
+                {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-sm">Dashboard</a>
+                <span style="color: var(--color-text-secondary); margin: 0 10px;">|</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-sm btn-danger">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-sm"
+                    style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Admin Portal</a>
+                <a href="{{ url_for('login') }}" class="btn btn-sm">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn btn-sm btn-primary">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-wrapper">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div style="margin-top: 20px;">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer
+        style="text-align: center; padding: 2rem 0; color: var(--color-text-muted); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem;">
+        &copy; 2024 StyleLane Fashion Systems. Cloud-Native Inventory Management.
+    </footer>
+</body>
+
+</html>

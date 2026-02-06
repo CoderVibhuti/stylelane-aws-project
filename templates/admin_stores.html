@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Store Management{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="{{ url_for('admin_dashboard') }}">Overview</a></li>
+            <li><a href="{{ url_for('admin_stores') }}" class="active">Store Management</a></li>
+            <li><a href="{{ url_for('admin_suppliers') }}">Supplier Management</a></li>
+            <li><a href="{{ url_for('admin_users') }}">User Management</a></li>
+            <li><a href="{{ url_for('admin_inventory') }}">Inventory Overview</a></li>
+            <li><a href="{{ url_for('admin_reports') }}">Reports</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 2rem;">
+            <h2>Store Management</h2>
+        </header>
+
+        <section class="card" style="margin-bottom: 2rem;">
+            <h3>Add New Store</h3>
+            <form action="{{ url_for('admin_stores') }}" method="POST"
+                style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; margin-top: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Store Name</label>
+                    <input type="text" name="store_name" class="form-input" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Store</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h3>Store List</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for store in stores %}
+                        <tr>
+                            <td>#{{ store.id }}</td>
+                            <td>{{ store.name }}</td>
+                            <td>{{ store.location }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 6rem 0;">
+    <h1 class="fade-in" style="font-size: 4.5rem; margin-bottom: 1.5rem; letter-spacing: -0.05em;">Elegance in Every
+        Order.</h1>
+    <p class="fade-in"
+        style="color: var(--color-text-secondary); font-size: 1.25rem; max-width: 700px; margin: 0 auto 3rem; line-height: 1.6;">
+        StyleLane is the definitive cloud-native platform for fashion houses. We merge cutting-edge inventory
+        intelligence with the speed of high-fashion logistics.
+    </p>
+    <div class="fade-in" style="display: flex; gap: 1.5rem; justify-content: center;">
+        <a href="{{ url_for('login') }}" class="btn btn-primary"
+            style="padding: 1.2rem 2.5rem; font-size: 1.1rem; border-radius: 50px;">Explore the Platform</a>
+        <a href="{{ url_for('about') }}" class="btn"
+            style="border: 1px solid rgba(255,255,255,0.2); padding: 1.2rem 2.5rem; font-size: 1.1rem; border-radius: 50px;">The
+            StyleLane Mission</a>
+    </div>
+
+    <div id="features" class="stat-grid fade-in" style="margin-top: 8rem; text-align: left;">
+        <div class="stat-card"
+            style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s ease;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">📦</div>
+            <h3>Intelligent Inventory</h3>
+            <p style="color: var(--color-text-secondary);">Real-time tracking across global flagship stores with
+                millisecond precision.</p>
+        </div>
+        <div class="stat-card"
+            style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s ease;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">⚡</div>
+            <h3>Agile Restocking</h3>
+            <p style="color: var(--color-text-secondary);">Empowering managers with manual overrides and seamless
+                restock request loops.</p>
+        </div>
+        <div class="stat-card"
+            style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s ease;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">🤝</div>
+            <h3>Supplier Ecosystem</h3>
+            <p style="color: var(--color-text-secondary);">A dedicated, view-only portal for suppliers to monitor
+                assigned stock levels.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

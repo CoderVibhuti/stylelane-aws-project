@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Supplier Portal{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="#" class="active">Assigned Inventory</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Supplied Inventory Overview</h2>
+            <div style="font-size: 0.9rem; color: var(--color-text-secondary); text-align: right;">
+                <div style="font-weight: 600;">{{ session.name }}</div>
+                <div style="font-size: 0.8rem;">Supplier Portal (View-Only)</div>
+            </div>
+        </header>
+
+        {% if not inventory %}
+        <div class="card" style="text-align: center; color: var(--color-text-secondary); padding: 4rem;">
+            <p>No products assigned to you were found in the inventory.</p>
+        </div>
+        {% else %}
+        <div class="table-container fade-in">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Details</th>
+                        <th>Store Location</th>
+                        <th>Current Quantity</th>
+                        <th>Stock Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory %}
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600;">{{ item.name }}</div>
+                            <div style="font-size: 0.8rem; color: var(--color-text-secondary);">
+                                SKU: {{ item.id }} | Category: {{ item.category }} | Size: {{ item.size }}
+                            </div>
+                        </td>
+                        <td>{{ item.store_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>
+                            {% if item.quantity < item.threshold %} <span class="badge badge-low">Low Stock Alert</span>
+                                {% else %}
+                                <span class="badge badge-ok">Stock OK</span>
+                                {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

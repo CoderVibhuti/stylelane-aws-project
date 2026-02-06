@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="auth-container" style="min-height: 60vh; background: none;"> <!-- Override BG as it's in body -->
+    <div class="card" style="width: 100%; max-width: 400px;">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Welcome Back</h2>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-input" required placeholder="manager@stylelane.com">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-input" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
+        </form>
+
+        <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--color-text-secondary);">
+            Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+        </p>
+
+        <div
+            style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem;">
+            <p style="color: var(--color-text-muted); margin-bottom: 0.5rem;">Demo Credentials:</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <code>admin@stylelane.com / admin123</code>
+                <code>manager@stylelane.com / manager123</code>
+                <code>supplier@stylelane.com / supplier123</code>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

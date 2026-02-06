@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Reports{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="{{ url_for('admin_dashboard') }}">Overview</a></li>
+            <li><a href="{{ url_for('admin_stores') }}">Store Management</a></li>
+            <li><a href="{{ url_for('admin_suppliers') }}">Supplier Management</a></li>
+            <li><a href="{{ url_for('admin_users') }}">User Management</a></li>
+            <li><a href="{{ url_for('admin_inventory') }}">Inventory Overview</a></li>
+            <li><a href="{{ url_for('admin_reports') }}" class="active">Reports</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 2rem;">
+            <h2>Admin Reports</h2>
+        </header>
+
+        <section class="card" style="margin-bottom: 3rem;">
+            <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                Inventory Report</h3>
+            <div class="table-container">
+                <table style="font-size: 0.9rem;">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Assigned Store</th>
+                            <th>Quantity on Hand</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in inventory_report %}
+                        <tr>
+                            <td>{{ row.product }}</td>
+                            <td>{{ row.store }}</td>
+                            <td>{{ row.quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                Stock Summary Report</h3>
+            <div class="table-container">
+                <table style="font-size: 0.9rem;">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Total Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in stock_summary %}
+                        <tr>
+                            <td>{{ row.product }}</td>
+                            <td>{{ row.total_quantity }}</td>
+                            <td>
+                                {% if row.status == 'Low Stock' %}
+                                <span style="color: var(--color-danger);">⚠️ Low Stock</span>
+                                {% else %}
+                                <span style="color: var(--color-success);">✅ Healthy</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="active">Overview</a></li>
+            <li><a href="{{ url_for('admin_stores') }}">Store Management</a></li>
+            <li><a href="{{ url_for('admin_suppliers') }}">Supplier Management</a></li>
+            <li><a href="{{ url_for('admin_users') }}">User Management</a></li>
+            <li><a href="{{ url_for('admin_inventory') }}">Inventory Overview</a></li>
+            <li><a href="{{ url_for('admin_reports') }}">Reports</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Admin Overview</h2>
+            <div style="font-size: 0.9rem; color: var(--color-text-secondary);">
+                Logged in as <strong>{{ session.name }}</strong>
+            </div>
+        </header>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ inventory|length }}</div>
+                <div class="stat-label">Total Products</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stores|length }}</div>
+                <div class="stat-label">Total Stores</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ total_managers }}</div>
+                <div class="stat-label">Total Managers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ total_suppliers }}</div>
+                <div class="stat-label">Total Suppliers</div>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid var(--color-warning);">
+                <div class="stat-number" style="color: var(--color-warning);">{{ low_stock_count }}</div>
+                <div class="stat-label">Low Stock</div>
+            </div>
+        </div>
+
+        <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+            <section class="card">
+                <h3 style="margin-bottom: 1rem;">Recent Activity</h3>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem;">
+                    System configuration and entity management active. Use the sidebar to manage stores, suppliers, and
+                    users.
+                </p>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--color-text-muted);">
+                    <em>All data is securely persisted in AWS DynamoDB.</em>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3 style="margin-bottom: 1rem;">Quick Links</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 0.5rem;"><a href="{{ url_for('admin_stores') }}"
+                            style="color: var(--color-primary);">Add New Store</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="{{ url_for('admin_suppliers') }}"
+                            style="color: var(--color-primary);">Register Supplier</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="{{ url_for('admin_reports') }}"
+                            style="color: var(--color-primary);">View Inventory Report</a></li>
+                </ul>
+            </section>
+        </div>
+    </main>
+</div>
+{% endblock %}

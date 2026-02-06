@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Supplier Management{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="{{ url_for('admin_dashboard') }}">Overview</a></li>
+            <li><a href="{{ url_for('admin_stores') }}">Store Management</a></li>
+            <li><a href="{{ url_for('admin_suppliers') }}" class="active">Supplier Management</a></li>
+            <li><a href="{{ url_for('admin_users') }}">User Management</a></li>
+            <li><a href="{{ url_for('admin_inventory') }}">Inventory Overview</a></li>
+            <li><a href="{{ url_for('admin_reports') }}">Reports</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 2rem;">
+            <h2>Supplier Management</h2>
+        </header>
+
+        <section class="card" style="margin-bottom: 2rem;">
+            <h3>Register New Supplier</h3>
+            <form action="{{ url_for('admin_suppliers') }}" method="POST"
+                style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; margin-top: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Supplier Name</label>
+                    <input type="text" name="supplier_name" class="form-input" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Contact / Email</label>
+                    <input type="text" name="contact" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Supplier</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h3>Supplier List</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for supplier in suppliers %}
+                        <tr>
+                            <td>#{{ supplier.id }}</td>
+                            <td>{{ supplier.name }}</td>
+                            <td>{{ supplier.contact }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

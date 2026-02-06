@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Store Manager Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li><a href="#" class="active">Inventory</a></li>
+            <li><a href="#">Restock History</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Store Inventory Management</h2>
+            <div style="text-align: right;">
+                <div style="font-weight: 600;">{{ session.location }}</div>
+                <div style="font-size: 0.8rem; color: var(--color-text-secondary);">Manager: {{ session.name }}</div>
+            </div>
+        </header>
+
+        <!-- Action Sections -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+            <!-- Add Product Form -->
+            <section class="card" style="padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 12px;">
+                <h3
+                    style="margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    Add New Product</h3>
+                <form action="{{ url_for('add_product') }}" method="POST" style="display: grid; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <input type="text" name="name" placeholder="Product Name" class="form-input" required>
+                        <input type="text" name="category" placeholder="Category" class="form-input" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <input type="text" name="size" placeholder="Size (e.g. M, 32, 8)" class="form-input" required>
+                        <input type="number" step="0.01" name="price" placeholder="Price ($)" class="form-input"
+                            required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <input type="number" name="quantity" placeholder="Initial Stock" class="form-input" required>
+                        <input type="number" name="threshold" placeholder="Low Stock Threshold" class="form-input"
+                            required>
+                    </div>
+                    <select name="supplier_id" class="form-input" required>
+                        <option value="" disabled selected>Select Supplier</option>
+                        {% for supplier in suppliers %}
+                        <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Add Product</button>
+                </form>
+            </section>
+
+            <!-- Restock Form -->
+            <section class="card" style="padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 12px;">
+                <h3
+                    style="margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    Stock Restock</h3>
+                <form action="{{ url_for('restock_product') }}" method="POST" style="display: grid; gap: 1rem;">
+                    <select name="product_id" class="form-input" required>
+                        <option value="" disabled selected>Select Product to Restock</option>
+                        {% for item in inventory %}
+                        <option value="{{ item.id }}">{{ item.name }} (Current: {{ item.quantity }})</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="quantity" placeholder="Quantity to Add" class="form-input" required>
+                    <select name="supplier_id" class="form-input" required>
+                        <option value="" disabled selected>Select Supplier</option>
+                        {% for supplier in suppliers %}
+                        <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; height: 100%;">Restock
+                        Inventory</button>
+                </form>
+            </section>
+        </div>
+
+        <h3>Current Inventory</h3>
+        {% if not inventory %}
+        <div class="alert alert-warning">No inventory found for this location.</div>
+        {% else %}
+        <div class="table-container fade-in">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Details</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Supplier</th>
+                        <th>Stock Level</th>
+                        <th>Status</th>
+                        <th>Quick Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory %}
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600;">{{ item.name }}</div>
+                            <div style="font-size: 0.8rem; color: var(--color-text-secondary);">SKU: {{ item.id }} |
+                                Size: {{ item.size }}</div>
+                        </td>
+                        <td>{{ item.category }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>
+                            {% set supplier = suppliers | selectattr('id', 'equalto', item.supplier_id) | first %}
+                            {{ supplier.name if supplier else 'Unknown' }}
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>
+                            {% if item.quantity < item.threshold %} <span class="badge badge-low">Low Stock</span>
+                                {% else %}
+                                <span class="badge badge-ok">OK</span>
+                                {% endif %}
+                        </td>
+                        <td>
+                            <form action="{{ url_for('update_stock', item_id=item.id) }}" method="POST"
+                                style="display: flex; gap: 0.4rem;">
+                                <input type="number" name="quantity" value="{{ item.quantity }}"
+                                    style="width: 60px; padding: 0.2rem;" class="form-input">
+                                <button type="submit" class="btn btn-sm btn-primary">Set</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}
