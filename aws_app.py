@@ -26,7 +26,7 @@ inventory_table = dynamodb.Table('Inventory')
 # Logical data (Shipments, Restock) is stored in the 'Inventory' table with a 'record_type' attribute.
 
 # 3️⃣ SNS NOTIFICATION HELPER
-SNS_TOPIC_ARN = os.environ.get('SNS_TOPIC_ARN', 'arn:aws:sns:us-east-1:897722679886:aws_topic') # Fallback for demo
+SNS_TOPIC_ARN = os.environ.get('SNS_TOPIC_ARN', 'arn:aws:sns:us-east-1:339713020789:project_styleLane') # Fallback for demo
 
 def send_notification(subject, message):
     try:
